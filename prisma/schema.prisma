@@ -40,4 +40,13 @@ model User {
   image         String?
   password      String?
   accounts      Account[]
+  profiles      UserProfile[]
+}
+
+model UserProfile{
+  id          String  @id @default(cuid())
+  name        String
+  color       String  @default("red")
+  userId      String
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

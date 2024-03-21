@@ -20,10 +20,12 @@ async function login(data: z.infer<typeof LoginSchema>) {
   }
 
   const { email, password } = verify.data;
+  let callbackUrl = undefined;
   try {
-    await signIn("credentials", {
+    callbackUrl = await signIn("credentials", {
       email,
       password,
+      redirect: false,
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
   } catch (error) {
@@ -36,6 +38,8 @@ async function login(data: z.infer<typeof LoginSchema>) {
       }
     }
   }
+
+  redirect(callbackUrl || DEFAULT_LOGIN_REDIRECT);
 }
 
 async function register(data: z.infer<typeof RegisterSchema>) {

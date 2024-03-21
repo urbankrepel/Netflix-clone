@@ -33,6 +33,12 @@ export default auth((req): any => {
     return Response.redirect(new URL("/auth/login", nextUrl));
   }
 
+  const isProfileSelected = req.cookies.get("selectedProfileId");
+  const isProfileRoute = nextUrl.pathname.startsWith("/profiles");
+  if (!isProfileSelected && !isProfileRoute) {
+    return Response.redirect(new URL("/profiles", nextUrl));
+  }
+
   return null;
 });
 

@@ -27,13 +27,15 @@ const LoginPage = () => {
 
   const onSubmit = async (data: FormData) => {
     clearErrors();
-    const res: any = await login(data);
-    if (res.error) {
-      setError("root", {
-        type: "manual",
-        message: res.error,
-      });
-    }
+    try {
+      const res: any = await login(data);
+      if (res.error) {
+        setError("root", {
+          type: "manual",
+          message: res.error,
+        });
+      }
+    } catch (e) {}
   };
 
   return (
