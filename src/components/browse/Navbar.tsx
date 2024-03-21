@@ -1,10 +1,14 @@
 "use client";
 
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+
 interface Props {
   children: React.ReactNode;
 }
 
 export default function Navbar({ children }: Props) {
+  const user = useCurrentUser();
+
   return (
     <div className="flex flex-col h-100 w-100">
       <div className="flex justify-between items-center w-100 h-12 text-white bg-gradient-to-b from-[#000000] to-transparent">
@@ -23,7 +27,7 @@ export default function Navbar({ children }: Props) {
         </div>
         <div className="flex items-center gap-4">
           <div className="mr-4">Search</div>
-          <div className="mr-4">Urban</div>
+          <div className="mr-4">{user?.name}</div>
         </div>
       </div>
       {children}

@@ -12,7 +12,7 @@ import Button from "@/components/button";
 
 type FormData = z.infer<typeof LoginSchema>;
 
-export const LoginPage = () => {
+const LoginPage = () => {
   const router = useRouter();
 
   const {
@@ -60,7 +60,7 @@ export const LoginPage = () => {
       )}
       <Button type="submit">Sign up</Button>
       <p className="text-neutral-500 mt-12">
-        Don't have an account?
+        Don&apos;t have an account?
         <span
           className="text-white ml-1 hover:underline cursor-pointer"
           onClick={() => router.push("/auth/register")}
