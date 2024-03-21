@@ -16,7 +16,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${openSans.className} h-100 w-100`}>{children}</body>
+      <body
+        className={`${openSans.className}`}
+        style={{
+          minHeight: "100vh",
+          minWidth: "100vw",
+        }}
+      >
+        {children}
+      </body>
     </html>
   );
 }
