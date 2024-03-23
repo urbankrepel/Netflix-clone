@@ -1,4 +1,5 @@
 import prisma from "@/lib/db";
+import { UserProfile } from "@prisma/client";
 
 export const getUserByEmail = async (email: string) => {
   return await prisma.user.findUnique({
@@ -15,5 +16,18 @@ export const createUser = async (data: {
 }) => {
   return await prisma.user.create({
     data,
+  });
+};
+
+export const getUserProfiles = async (
+  userId?: string
+): Promise<UserProfile[] | null> => {
+  if (!userId) {
+    return null;
+  }
+  return await prisma.userProfile.findMany({
+    where: {
+      userId,
+    },
   });
 };

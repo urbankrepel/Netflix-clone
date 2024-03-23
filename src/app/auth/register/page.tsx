@@ -8,7 +8,7 @@ import { register as userRegistration } from "@/actions/user";
 import { RegisterSchema } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Button from "@/components/button";
+import Button from "@/components/Button";
 
 type FormData = z.infer<typeof RegisterSchema>;
 

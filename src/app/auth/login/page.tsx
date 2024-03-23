@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { LoginSchema } from "@/schemas";
 import Input from "@/components/Input";
 import { login } from "@/actions/user";
-import Button from "@/components/button";
+import Button from "@/components/Button";
 
 type FormData = z.infer<typeof LoginSchema>;
 
