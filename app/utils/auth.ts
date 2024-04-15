@@ -2,6 +2,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import prisma from "./db";
+import { isSubscribed } from "@/server/user";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -32,4 +33,16 @@ export const authOptions: NextAuthOptions = {
       from: process.env.EMAIL_FROM,
     }),
   ],
+  callbacks: {
+    session: async ({ session, token }) => {
+      return session;
+    },
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.is_subscribed = await isSubscribed(user.email!);
+        token.uid = user.id;
+      }
+      return token;
+    },
+  },
 } satisfies NextAuthOptions;

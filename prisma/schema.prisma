@@ -45,7 +45,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  stripeCostumerId String? @unique
+  stripeCostumerId String?
   accounts      Account[]
   sessions      Session[]
   subscriptions UserSubscription[]
