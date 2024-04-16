@@ -45,8 +45,10 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  stripeCostumerId String? @unique
   accounts      Account[]
   sessions      Session[]
+  subscriptions UserSubscription[]
 }
 
 model Movie {
@@ -79,4 +81,28 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Product {
+  id String @id @default(uuid())
+  name String
+  description String @db.Text
+  price Float
+  stripeId String
+
+  userSubscriptions UserSubscription[]
+}
+
+model UserSubscription {
+  id String @id @default(uuid())
+  userId String
+  productId String
+  status String
+  stripeSubscriptionId String
+
+  startDate DateTime
+  endDate DateTime
+
+  User User @relation(fields: [userId], references: [id])
+  Product Product @relation(fields: [productId], references: [id])
 }

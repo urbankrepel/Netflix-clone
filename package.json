@@ -23,6 +23,7 @@
     "next-auth": "^4.24.4",
     "react": "^18",
     "react-dom": "^18",
+    "stripe": "^15.1.0",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7"
   },
