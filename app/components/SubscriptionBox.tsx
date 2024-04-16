@@ -6,9 +6,13 @@ import React from "react";
 
 interface SubscriptionBoxProps {
   product: Product;
+  subscribed: boolean;
 }
 
-const SubscriptionBox: React.FC<SubscriptionBoxProps> = ({ product }) => {
+const SubscriptionBox: React.FC<SubscriptionBoxProps> = ({
+  product,
+  subscribed,
+}) => {
   const subscribe = (productId: string) => {
     subscribeToProduct(productId);
   };
@@ -17,12 +21,19 @@ const SubscriptionBox: React.FC<SubscriptionBoxProps> = ({ product }) => {
     <div className="flex flex-col gap-2 border p-2 rounded-md shadow-md">
       <p className="text-xl font-bold">{product.name}</p>
       <p className="text-sm">{product.description}</p>
-      <button
-        className="bg-red-500 text-white p-2 rounded-md"
-        onClick={() => subscribe(product.id)}
-      >
-        Subscribe for {product.price / 100}€/month
-      </button>
+      {!subscribed && (
+        <button
+          className="bg-red-500 text-white p-2 rounded-md"
+          onClick={() => subscribe(product.id)}
+        >
+          Subscribe for {product.price / 100}€/month
+        </button>
+      )}
+      {subscribed && (
+        <button className="bg-white text-red-500 p-2 rounded-md">
+          Current plan
+        </button>
+      )}
     </div>
   );
 };

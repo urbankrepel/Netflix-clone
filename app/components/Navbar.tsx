@@ -56,7 +56,9 @@ export default function Navbar() {
       </div>
 
       <div className="flex items-center gap-x-8">
-        <Search className="w-5 h-5 text-gray-300 cursor-pointer" />
+        <Link href="/home/search">
+          <Search className="w-5 h-5 text-gray-300 cursor-pointer" />
+        </Link>
         <Bell className="h-5 w-5 text-gray-300 cursor-pointer" />
         <UserNav />
       </div>

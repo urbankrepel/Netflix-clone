@@ -1,27 +1,33 @@
 import { Suspense } from "react";
 import SubscriptionBox from "../components/SubscriptionBox";
 import prisma from "../utils/db";
-import { Product } from "@prisma/client";
+import { getCurrentSubscription } from "@/server/user";
+import { getServerSession } from "next-auth";
 
-export default function SubscriptionPage() {
-  const subscriptions = prisma.product.findMany();
+export default async function SubscriptionPage() {
+  const session = await getServerSession();
+  const subscriptions = await prisma.product.findMany({
+    orderBy: {
+      price: "asc",
+    },
+  });
+  const currentSubscription = await getCurrentSubscription(
+    session?.user?.email!
+  );
   return (
     <div className="flex flex-col items-center justify-center m-4 h-screen gap-8">
       <h1 className="text-4xl font-bold">Subscriptions</h1>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Subscriptions promise={subscriptions} />
-      </Suspense>
-    </div>
-  );
-}
-
-async function Subscriptions({ promise }: { promise: Promise<Product[]> }) {
-  const subscriptions = (await promise) as Product[];
-  return (
-    <div className="grid grid-cols-3 gap-4">
-      {subscriptions.map((product) => (
-        <SubscriptionBox key={product.id} product={product} />
-      ))}
+      <div className="grid grid-cols-1 gap-y-4 md:grid-cols-3 md:gap-x-4">
+        <Suspense fallback={<div>Loading...</div>}>
+          {subscriptions.map((product) => (
+            <SubscriptionBox
+              key={product.id}
+              product={product}
+              subscribed={currentSubscription?.productId === product.id}
+            />
+          ))}
+        </Suspense>
+      </div>
     </div>
   );
 }

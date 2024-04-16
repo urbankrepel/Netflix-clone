@@ -16,6 +16,10 @@ export async function GET(req: NextRequest) {
     return redirect("/home");
   }
 
+  if (session.payment_status !== "paid") {
+    return redirect("/home");
+  }
+
   const subscriptionId = session.subscription as string | undefined;
 
   if (!subscriptionId) {

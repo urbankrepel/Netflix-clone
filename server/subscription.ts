@@ -22,8 +22,6 @@ export async function subscribeToProduct(productId: string) {
   const session = await getServerSession();
   const userEmail = session!.user?.email;
 
-  console.log("session", session);
-
   const customerID = await getUserStripeCustomerId(userEmail!);
 
   const checkoutSession = await stripeInstance?.checkout.sessions.create({
