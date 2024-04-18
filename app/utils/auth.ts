@@ -34,12 +34,14 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    session: async ({ session, token }) => {
+    session: async ({ session, token, user }) => {
+      if (user) {
+        session.is_subscribed = await isSubscribed(user.email);
+      }
       return session;
     },
     jwt: async ({ user, token }) => {
       if (user) {
-        token.is_subscribed = await isSubscribed(user.email!);
         token.uid = user.id;
       }
       return token;

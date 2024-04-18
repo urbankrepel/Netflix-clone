@@ -2,7 +2,7 @@
 
 import prisma from "@/app/utils/db";
 import { stripeInstance } from "@/app/utils/stripe";
-import { getUserStripeCustomerId } from "./user";
+import { getCurrentSubscription, getUserStripeCustomerId } from "./user";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -43,4 +43,30 @@ export async function subscribeToProduct(productId: string) {
   }
 
   redirect(checkoutSession.url as string);
+}
+
+export async function cancelSubscription() {
+  const session = await getServerSession();
+  const userEmail = session!.user?.email;
+
+  const activeSubscriptions = await getCurrentSubscription(userEmail!);
+
+  if (!activeSubscriptions) {
+    throw new Error("No active subscription found");
+  }
+
+  const subscriptionId = activeSubscriptions.stripeSubscriptionId;
+
+  if (!subscriptionId) {
+    throw new Error("No active subscription found");
+  }
+
+  await stripeInstance?.subscriptions.cancel(subscriptionId);
+
+  await prisma.userSubscription.update({
+    where: { id: activeSubscriptions.id },
+    data: { status: "cancelled" },
+  });
+
+  // update session
 }
