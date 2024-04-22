@@ -63,6 +63,8 @@ model Movie {
   category      String
   youtubeString String
   WatchLists    WatchList[]
+  
+  Genre MovieGenre[]
 
   createdAt DateTime @default(now())
 }
@@ -105,4 +107,20 @@ model UserSubscription {
 
   User User @relation(fields: [userId], references: [id])
   Product Product @relation(fields: [productId], references: [id])
+}
+
+model Genre {
+  id String @id @default(uuid())
+  name String
+  
+  Movies MovieGenre[]
+}
+
+model MovieGenre {
+  id String @id @default(uuid())
+  movieId Int
+  genreId String
+
+  Movie Movie @relation(fields: [movieId], references: [id])
+  Genre Genre @relation(fields: [genreId], references: [id])
 }

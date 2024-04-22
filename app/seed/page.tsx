@@ -4,6 +4,25 @@ import prisma from "../utils/db";
 export default function SeedDatabase() {
   async function postData() {
     "use server";
+
+    await prisma.genre.createMany({
+      data: [
+        { id: "1", name: "Action" },
+        { id: "2", name: "Adventure" },
+        { id: "3", name: "Comedy" },
+        { id: "4", name: "Crime" },
+        { id: "5", name: "Drama" },
+        { id: "6", name: "Fantasy" },
+        { id: "7", name: "Historical" },
+        { id: "8", name: "Horror" },
+        { id: "9", name: "Mystery" },
+        { id: "10", name: "Political" },
+        { id: "11", name: "Romance" },
+        { id: "12", name: "Science Fiction" },
+        { id: "13", name: "Thriller" },
+      ],
+    });
+
     await prisma.movie.createMany({
       data: [
         {
@@ -162,6 +181,33 @@ export default function SeedDatabase() {
           category: "show",
           youtubeString: "https://www.youtube.com/embed/7hRxWGo49oc",
         },
+      ],
+    });
+
+    await prisma.movieGenre.createMany({
+      data: [
+        { movieId: 0, genreId: "1" },
+        { movieId: 0, genreId: "2" },
+        { movieId: 1, genreId: "9" },
+        { movieId: 1, genreId: "13" },
+        { movieId: 2, genreId: "8" },
+        { movieId: 2, genreId: "13" },
+        { movieId: 3, genreId: "13" },
+        { movieId: 3, genreId: "4" },
+        { movieId: 4, genreId: "5" },
+        { movieId: 4, genreId: "11" },
+        { movieId: 5, genreId: "7" },
+        { movieId: 5, genreId: "13" },
+        { movieId: 6, genreId: "13" },
+        { movieId: 6, genreId: "1" },
+        { movieId: 7, genreId: "1" },
+        { movieId: 7, genreId: "12" },
+        { movieId: 8, genreId: "5" },
+        { movieId: 8, genreId: "11" },
+        { movieId: 9, genreId: "5" },
+        { movieId: 9, genreId: "13" },
+        { movieId: 10, genreId: "5" },
+        { movieId: 10, genreId: "11" },
       ],
     });
   }
