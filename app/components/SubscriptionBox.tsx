@@ -38,7 +38,7 @@ const SubscriptionBox: React.FC<SubscriptionBoxProps> = ({
           className="bg-white text-red-500 p-2 rounded-md"
           onClick={cancel}
         >
-          Current plan
+          Cancel subscription
         </button>
       )}
     </div>

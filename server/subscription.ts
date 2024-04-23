@@ -5,6 +5,7 @@ import { stripeInstance } from "@/app/utils/stripe";
 import { getCurrentSubscription, getUserStripeCustomerId } from "./user";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export async function subscribeToProduct(productId: string) {
   const product = await prisma.product.findFirst({ where: { id: productId } });
@@ -68,5 +69,5 @@ export async function cancelSubscription() {
     data: { status: "cancelled" },
   });
 
-  // update session
+  revalidatePath("/subscription");
 }

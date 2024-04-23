@@ -42,6 +42,7 @@ export async function isSubscribed(userEmail: string): Promise<boolean> {
       User: {
         email: userEmail,
       },
+      status: "active",
     },
   });
 
@@ -66,6 +67,7 @@ export async function getCurrentSubscription(userEmail: string) {
       User: {
         email: userEmail,
       },
+      status: "active",
     },
   });
 

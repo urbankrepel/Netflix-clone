@@ -5,26 +5,87 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../utils/auth";
 
 async function getData(userId: string) {
-  const data = await prisma.movie.findMany({
+  const userWatchList = await prisma.watchList.findMany({
+    where: {
+      userId: userId,
+    },
+    select: {
+      Movie: {
+        select: {
+          Genre: {
+            select: {
+              Genre: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+  if (userWatchList.length > 0) {
+    const data = prisma.movie.findMany({
+      where: {
+        Genre: {
+          some: {
+            Genre: {
+              name: {
+                in: userWatchList
+                  .map((movie) =>
+                    movie.Movie?.Genre.map((genre) => genre.Genre.name)
+                  )
+                  .flat() as string[],
+              },
+            },
+          },
+        },
+      },
+      select: {
+        id: true,
+        title: true,
+        overview: true,
+        imageString: true,
+        youtubeString: true,
+        age: true,
+        duration: true,
+        release: true,
+        WatchLists: {
+          where: {
+            userId: userId,
+          },
+        },
+      },
+      orderBy: {
+        release: "desc",
+      },
+      take: 8,
+    });
+
+    return data;
+  }
+
+  const data = prisma.movie.findMany({
     select: {
       id: true,
-      overview: true,
       title: true,
+      overview: true,
+      imageString: true,
+      youtubeString: true,
+      age: true,
+      duration: true,
+      release: true,
       WatchLists: {
         where: {
           userId: userId,
         },
       },
-      imageString: true,
-      youtubeString: true,
-      age: true,
-      release: true,
-      duration: true,
     },
     orderBy: {
-      createdAt: "desc",
+      release: "desc",
     },
-    take: 4,
+    take: 8,
   });
 
   return data;
