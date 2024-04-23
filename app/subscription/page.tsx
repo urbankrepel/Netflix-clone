@@ -3,6 +3,7 @@ import SubscriptionBox from "../components/SubscriptionBox";
 import prisma from "../utils/db";
 import { getCurrentSubscription } from "@/server/user";
 import { getServerSession } from "next-auth";
+import Link from "next/link";
 
 export default async function SubscriptionPage() {
   const session = await getServerSession();
@@ -28,6 +29,9 @@ export default async function SubscriptionPage() {
           ))}
         </Suspense>
       </div>
+      <Link href="/home" className="text-red-500 underline">
+        Go home
+      </Link>
     </div>
   );
 }
