@@ -91,6 +91,7 @@ model Product {
   description String @db.Text
   price Float
   stripeId String
+  tier Int @default(1)
 
   userSubscriptions UserSubscription[]
 }
