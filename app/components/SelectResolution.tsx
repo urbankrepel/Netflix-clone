@@ -4,9 +4,13 @@ import Select from "./Select";
 
 interface SelectResolutionProps {
   tier: number;
+  openUpgradeModal: () => void;
 }
 
-const SelectResolution: React.FC<SelectResolutionProps> = ({ tier }) => {
+const SelectResolution: React.FC<SelectResolutionProps> = ({
+  tier,
+  openUpgradeModal,
+}) => {
   const [selectedResolution, setSelectedResolution] = useState<number>(0);
 
   const resolutions = ["480p", "720p", "1080p", "1440p", "4k"];
@@ -19,9 +23,8 @@ const SelectResolution: React.FC<SelectResolutionProps> = ({ tier }) => {
       return;
     }
     const resolution = resolutions.indexOf(event.target.value);
-    console.log("Resolution: ", resolution);
-    console.log("Tier: ", tier);
     if (tierForResolutions[resolution] > tier) {
+      openUpgradeModal();
       return;
     }
     setSelectedResolution(resolution);

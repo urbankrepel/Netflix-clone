@@ -19,7 +19,7 @@ const SearchMovies: React.FC<SearchMoviesProps> = async ({ query }) => {
       {not_available && search_movie && (
         <div className="flex items-center justify-center w-full">
           <p className="text-2xl">
-            {search_movie} is not currently available. But we recommend you to
+            {search_movie} is currently not available. But we recommend you to
           </p>
         </div>
       )}

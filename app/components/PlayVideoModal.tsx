@@ -8,6 +8,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import SelectResolution from "./SelectResolution";
+import { useState } from "react";
+import UpgradeTierModal from "./UpgradeTierModal";
 
 interface iAppProps {
   title: string;
@@ -32,6 +34,13 @@ export default function PlayVideoModal({
   release,
   userTier,
 }: iAppProps) {
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
   return (
     <Dialog open={state} onOpenChange={() => changeState(!state)}>
       <DialogContent className="sm:max-w-[425px]">
@@ -47,7 +56,8 @@ export default function PlayVideoModal({
           </div>
         </DialogHeader>
         <iframe src={youtubeUrl} height={250} className="w-full"></iframe>
-        <SelectResolution tier={userTier} />
+        <SelectResolution tier={userTier} openUpgradeModal={handleOpen} />
+        <UpgradeTierModal open={open} onClose={handleClose} tier={userTier} />
       </DialogContent>
     </Dialog>
   );
