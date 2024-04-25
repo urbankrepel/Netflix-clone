@@ -13,6 +13,7 @@ interface iAppProps {
   title: string;
   releaseDate: number;
   duration: number;
+  userTier: number;
 }
 
 export default function MovieButtons({
@@ -23,6 +24,7 @@ export default function MovieButtons({
   releaseDate,
   title,
   youtubeUrl,
+  userTier,
 }: iAppProps) {
   const [open, setOpen] = useState(false);
   return (
@@ -47,6 +49,7 @@ export default function MovieButtons({
         release={releaseDate}
         title={title}
         youtubeUrl={youtubeUrl}
+        userTier={userTier}
       />
     </>
   );

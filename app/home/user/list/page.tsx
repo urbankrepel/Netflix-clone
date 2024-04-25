@@ -1,6 +1,7 @@
 import { MovieCard } from "@/app/components/MovieCard";
 import { authOptions } from "@/app/utils/auth";
 import prisma from "@/app/utils/db";
+import { getUserTier } from "@/server/user";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 
@@ -32,6 +33,7 @@ async function getData(userId: string) {
 export default async function Watchlist() {
   const session = await getServerSession(authOptions);
   const data = await getData(session?.user?.email as string);
+  const userTier = await getUserTier(session?.user?.email as string);
   return (
     <>
       <h1 className="text-white text-4xl font-bold underline mt-10 px-5 sm:px-0">
@@ -72,6 +74,7 @@ export default async function Watchlist() {
                   }
                   year={movie.Movie?.release as number}
                   youtubeUrl={movie.Movie?.youtubeString as string}
+                  userTier={userTier}
                 />
               </div>
             </div>

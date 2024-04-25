@@ -77,3 +77,14 @@ export async function getCurrentSubscription(userEmail: string) {
 
   return subscription;
 }
+
+export async function getUserTier(email: string): Promise<number> {
+  const subscription = await getCurrentSubscription(email);
+  if (!subscription) {
+    return 0;
+  }
+  const product = await prisma.product.findFirst({
+    where: { id: subscription.productId },
+  });
+  return product?.tier || 0;
+}

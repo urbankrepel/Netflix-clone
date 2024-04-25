@@ -2,23 +2,40 @@
 import React, { useState } from "react";
 import Select from "./Select";
 
-const SelectResolution = () => {
-  const [selectedResolution, setSelectedResolution] = useState("");
+interface SelectResolutionProps {
+  tier: number;
+}
+
+const SelectResolution: React.FC<SelectResolutionProps> = ({ tier }) => {
+  const [selectedResolution, setSelectedResolution] = useState<number>(0);
 
   const resolutions = ["480p", "720p", "1080p", "1440p", "4k"];
+  const tierForResolutions = [0, 1, 1, 2, 3];
 
   const handleResolutionChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const resolution = event.target.value;
-    console.log(resolution);
+    if (tier < 1) {
+      return;
+    }
+    const resolution = resolutions.indexOf(event.target.value);
+    console.log("Resolution: ", resolution);
+    console.log("Tier: ", tier);
+    if (tierForResolutions[resolution] > tier) {
+      return;
+    }
+    setSelectedResolution(resolution);
   };
 
   return (
     <form>
       <label htmlFor="resolution">Select Resolution:</label>
       <div className="flex gap-x-2">
-        <Select options={resolutions} onChange={handleResolutionChange} />
+        <Select
+          options={resolutions}
+          onChange={handleResolutionChange}
+          value={resolutions[selectedResolution]}
+        />
       </div>
     </form>
   );

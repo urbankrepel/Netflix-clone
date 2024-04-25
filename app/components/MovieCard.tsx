@@ -17,6 +17,7 @@ interface iAppProps {
   year: number;
   age: number;
   time: number;
+  userTier: number;
 }
 
 export function MovieCard({
@@ -29,6 +30,7 @@ export function MovieCard({
   age,
   time,
   year,
+  userTier,
 }: iAppProps) {
   const [open, setOpen] = useState(false);
   const pathName = usePathname();
@@ -82,6 +84,7 @@ export function MovieCard({
         age={age}
         duration={time}
         release={year}
+        userTier={userTier}
       />
     </>
   );

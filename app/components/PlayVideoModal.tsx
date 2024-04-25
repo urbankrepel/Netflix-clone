@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Dialog,
   DialogContent,
@@ -5,7 +7,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Select from "./Select";
 import SelectResolution from "./SelectResolution";
 
 interface iAppProps {
@@ -17,6 +18,7 @@ interface iAppProps {
   release: number;
   age: number;
   duration: number;
+  userTier: number;
 }
 
 export default function PlayVideoModal({
@@ -28,6 +30,7 @@ export default function PlayVideoModal({
   age,
   duration,
   release,
+  userTier,
 }: iAppProps) {
   return (
     <Dialog open={state} onOpenChange={() => changeState(!state)}>
@@ -44,7 +47,7 @@ export default function PlayVideoModal({
           </div>
         </DialogHeader>
         <iframe src={youtubeUrl} height={250} className="w-full"></iframe>
-        <SelectResolution />
+        <SelectResolution tier={userTier} />
       </DialogContent>
     </Dialog>
   );

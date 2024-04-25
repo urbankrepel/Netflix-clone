@@ -1,6 +1,7 @@
 import { MovieCard } from "@/app/components/MovieCard";
 import { authOptions } from "@/app/utils/auth";
 import prisma from "@/app/utils/db";
+import { getUserTier } from "@/server/user";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 
@@ -90,6 +91,7 @@ export default async function CategoryPage({
 }) {
   const session = await getServerSession(authOptions);
   const data = await getData(params.genre, session?.user?.email as string);
+  const userTier = await getUserTier(session?.user?.email as string);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-5 sm:px-0 mt-10 gap-6">
@@ -123,6 +125,7 @@ export default async function CategoryPage({
                 watchList={movie.WatchLists.length > 0 ? true : false}
                 year={movie.release}
                 youtubeUrl={movie.youtubeString}
+                userTier={userTier}
               />
             </div>
           </div>

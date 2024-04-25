@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import prisma from "../utils/db";
 import MovieButtons from "./MovieButtons";
+import { getUserTier } from "@/server/user";
+import { getServerSession } from "next-auth";
 
 async function getData() {
   const data = await prisma.movie.findFirst({
@@ -21,6 +23,8 @@ async function getData() {
 
 export default async function MovieVideo() {
   const data = await getData();
+  const session = await getServerSession();
+  const userTier = await getUserTier(session!.user?.email!);
 
   return (
     <div className="h-[55vh] lg:h-[60vh] w-full flex justify-start items-center">
@@ -48,6 +52,7 @@ export default async function MovieVideo() {
             title={data?.title as string}
             youtubeUrl={data?.youtubeString as string}
             key={data?.id}
+            userTier={userTier}
           />
         </div>
       </div>

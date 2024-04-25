@@ -3,6 +3,7 @@ import prisma from "../utils/db";
 import { MovieCard } from "./MovieCard";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../utils/auth";
+import { getUserTier } from "@/server/user";
 
 async function getData(userId: string) {
   const userWatchList = await prisma.watchList.findMany({
@@ -94,6 +95,7 @@ async function getData(userId: string) {
 export default async function RecentlyAdded() {
   const session = await getServerSession(authOptions);
   const data = await getData(session?.user?.email as string);
+  const userTier = await getUserTier(session?.user?.email as string);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-8 gap-6">
@@ -128,6 +130,7 @@ export default async function RecentlyAdded() {
                 age={movie.age}
                 time={movie.duration}
                 year={movie.release}
+                userTier={userTier}
               />
             </div>
           </div>
