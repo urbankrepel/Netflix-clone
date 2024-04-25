@@ -104,24 +104,28 @@ export async function searchForMovies(
 async function getGenreFromMovieTitle(
   title: string
 ): Promise<[string[] | null, string]> {
-  const response = await fetch(
-    `http://www.omdbapi.com/?t=${title}&apikey=${process.env.OMDB_API_KEY}&i=tt3896198`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+  try {
+    const response = await fetch(
+      `http://www.omdbapi.com/?t=${title}&apikey=${process.env.OMDB_API_KEY}&i=tt3896198`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      return [null, ""];
     }
-  );
+    const data = await response.json();
 
-  if (!response.ok) {
+    if (!data.Genre) {
+      return [null, ""];
+    }
+
+    return [data.Genre.split(", "), data.Title];
+  } catch (error) {
+    console.error(error);
     return [null, ""];
   }
-  const data = await response.json();
-
-  if (!data.Genre) {
-    return [null, ""];
-  }
-
-  return [data.Genre.split(", "), data.Title];
 }

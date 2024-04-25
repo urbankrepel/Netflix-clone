@@ -5,6 +5,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import Select from "./Select";
+import SelectResolution from "./SelectResolution";
 
 interface iAppProps {
   title: string;
@@ -42,6 +44,7 @@ export default function PlayVideoModal({
           </div>
         </DialogHeader>
         <iframe src={youtubeUrl} height={250} className="w-full"></iframe>
+        <SelectResolution />
       </DialogContent>
     </Dialog>
   );
