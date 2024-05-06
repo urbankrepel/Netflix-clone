@@ -1,8 +1,9 @@
 import { searchForMovies } from "@/server/movie";
-import React from "react";
-import Image from "next/image";
-import { MovieCard } from "./MovieCard";
 import { getServerSession } from "next-auth";
+import Image from "next/image";
+import React from "react";
+import { MovieCard } from "./MovieCard";
+import { getUserTier } from "@/server/user";
 
 interface SearchMoviesProps {
   query?: string;
@@ -14,6 +15,7 @@ const SearchMovies: React.FC<SearchMoviesProps> = async ({ query }) => {
     session?.user?.email as string,
     query
   );
+  const userTier = await getUserTier(session?.user?.email as string);
   return (
     <div className="flex flex-col items-center justify-start w-full h-full">
       {not_available && search_movie && (
@@ -60,6 +62,7 @@ const SearchMovies: React.FC<SearchMoviesProps> = async ({ query }) => {
                   age={movie.age}
                   time={movie.duration}
                   year={movie.release}
+                  userTier={userTier}
                 />
               </div>
             </div>

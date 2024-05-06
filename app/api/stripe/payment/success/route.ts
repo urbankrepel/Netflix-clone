@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, res: NextResponse) {
   const sessionId = req.nextUrl.searchParams.get("session_id");
 
   if (!sessionId) {
@@ -99,6 +99,16 @@ export async function GET(req: NextRequest) {
   });
 
   revalidatePath("/home");
+  let pdfLink;
+  try {
+    const invoiceId = session.invoice as string | undefined;
+    if (invoiceId) {
+      const invoice = await stripeInstance?.invoices.retrieve(invoiceId);
+      if (invoice) {
+        pdfLink = invoice.invoice_pdf as string | undefined;
+      }
+    }
+  } catch (e) {}
 
-  return redirect("/home");
+  return redirect("/home?success=true&pdfLink=" + pdfLink);
 }
